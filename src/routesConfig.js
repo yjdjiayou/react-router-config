@@ -11,45 +11,56 @@ import Register from './routes/Register';
 export default [
     {
         path: '/',
+        // exact:true,
+        name:'index-page-route',
         component:IndexPage,
         // component: () => import('./routes/IndexPage'),
-        routes: [//子路由
+        routes: [
             {
                 path: '/home',
+                name:'home-route',
                 component: Home,
                 // component: () => import('./routes/Home/Home'),
                 routes: [
                     {
                         path: '/home/childOne',
+                        name:'home-child-one-route',
                         component: ChildOne,
                         // component: () => import('./routes/Home/ChildOne'),
                     },
                     {
                         path: '/home/childTwo',
+                        name:'home-child-two-route',
                         component: ChildTwo,
                         // component: () => import('./routes/Home/ChildTwo'),
-                        redirect: true,
+                        isRedirect: true,
                     }
                 ]
             },
             {
                 path: '/user',
-                redirect: true,
+                name:'user-route',
                 component: User,
+                isRedirect: true,
                 // component: () => import('./routes/User'),
             },
             {
                 path: '/profile',
+                name:'profile-route',
                 component: Profile,
+                isProtected:true,
+                isDynamic:true,
                 // component: () => import('./routes/Profile'),
             },
             {
                 path: '/login',
+                name:'login-route',
                 component: Login,
                 // component: () => import('./routes/Login'),
             },
             {
                 path: '/register',
+                name:'register-route',
                 component: Register,
                 // component: () => import('./routes/Register'),
             }

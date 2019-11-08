@@ -1,4 +1,6 @@
-import {Route, Switch} from 'react-router-dom';
+import React from 'react';
+import {Route, Switch, Redirect} from 'react-router-dom';
+import {variableTypeUtil} from "./variable-type-util";
 
 /**
  default: "模块内容"
@@ -14,8 +16,39 @@ export function renderAllRoutes() {
 }
 
 
-export function renderRoutes() {
-    console.log(888);
+export function renderRoutes(routesConfig, extraProps = {}) {
+    return (<Switch>
+        {
+            routesConfig.map((item, index) => {
+                const {path, exact, isRedirect, isProtected, isDynamic, component: Component, routes = []} = item;
+                if (variableTypeUtil.isFunction(Component)) {
+
+                }
+                if (isRedirect) {
+                    return (<>
+                        <Route
+                            key={path}
+                            path={path}
+                            exact={exact}
+                            component={props => {
+                                return <Component {...props} {...extraProps} routes={routes}/>;
+                            }}
+                        />
+                        <Redirect key={path + 'redirect'} to={path}/>
+                    </>);
+                }
+                return (<Route
+                    key={path}
+                    path={path}
+                    exact={exact}
+                    component={props => {
+                        return <Component {...props} {...extraProps} routes={routes}/>;
+                    }}
+                />);
+            })
+        }
+    </Switch>);
+
 }
 
 

@@ -16,9 +16,7 @@ function App() {
   return (
       <Provider store={store}>
           <ConnectedRouter history={history}>
-              <Switch>
-                  {renderRoutes(routesConfig)}
-              </Switch>
+              {renderRoutes(routesConfig)}
           </ConnectedRouter>
       </Provider>
   );

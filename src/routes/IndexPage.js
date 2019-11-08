@@ -19,9 +19,7 @@ function IndexPage(props) {
         <Layout>
             <NavBar {...props}/>
             <Content>
-                {/*<Switch>*/}
-                {/*    {renderRoutes(routesConfig)}*/}
-                {/*</Switch>*/}
+                {renderRoutes(props.routes)}
             </Content>
         </Layout>
     );
