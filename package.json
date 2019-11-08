@@ -3,8 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "antd": "^3.25.0",
+    "connected-react-router": "^6.5.2",
+    "history": "^4.10.1",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
+    "react-router": "^5.1.2",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0"
   },
   "scripts": {
@@ -27,5 +32,17 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "@babel/plugin-proposal-decorators": "^7.7.0",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-react": "^7.7.0",
+    "babel-plugin-dynamic-import-webpack": "^1.1.0",
+    "babel-plugin-import": "^1.12.2",
+    "less": "^3.10.3",
+    "react-redux": "^7.1.3",
+    "redux": "^4.0.4",
+    "redux-devtools-extension": "^2.13.8"
   }
 }
