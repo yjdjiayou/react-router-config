@@ -1,13 +1,17 @@
 import React from 'react';
-import {renderRoutes} from "../../utils/route-loader";
+import {renderRoutes,renderAllRoutes} from "../../utils/route-loader";
 import {Route, Switch} from 'react-router-dom';
 
+
 function Home(props) {
-    console.log(props);
+    const routes = renderAllRoutes(props.routes);
+    // console.log(routes);
     return (
     <div>
       Home
-        {renderRoutes(props.routes)}
+        <Switch>
+            {routes}
+        </Switch>
     </div>
   );
 }

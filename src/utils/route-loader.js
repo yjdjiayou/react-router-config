@@ -10,46 +10,47 @@ import {variableTypeUtil} from "./variable-type-util";
 // 它会有一个 __esModule=true 的键值对——表示 ES6 模块；
 // 有一个 default: "模块内容" 的键值对——表示 该模块的内容
 
-
-export function renderAllRoutes() {
-    console.log(666);
+export function renderAllRoutes(routesConfig, extraProps) {
+    let routes = renderRoutes(routesConfig, extraProps);
+    let redirect = renderRedirect(routesConfig);
+    return [...routes, redirect];
 }
 
-
 export function renderRoutes(routesConfig, extraProps = {}) {
-    return (<Switch>
-        {
-            routesConfig.map((item, index) => {
-                const {path, exact, isRedirect, isProtected, isDynamic, component: Component, routes = []} = item;
-                if (variableTypeUtil.isFunction(Component)) {
+    return routesConfig.map((item, index) => {
+        const {path, exact, isRedirect, isProtected, isDynamic, component: Component, routes = []} = item;
+        if (variableTypeUtil.isFunction(Component)) {
 
-                }
-                if (isRedirect) {
-                    return (<>
-                        <Route
-                            key={path}
-                            path={path}
-                            exact={exact}
-                            component={props => {
-                                return <Component {...props} {...extraProps} routes={routes}/>;
-                            }}
-                        />
-                        <Redirect key={path + 'redirect'} to={path}/>
-                    </>);
-                }
-                return (<Route
+        }
+        /*if (isRedirect) {
+            // 看 Switch 的源码，就知道为什么这里不能这样写了
+            // Switch 里面只能放 Route ，不能放别的，哪怕是 React.Fragment
+            return (<React.Fragment key={path} path={path} exact={exact}>
+                <Route
                     key={path}
                     path={path}
                     exact={exact}
-                    component={props => {
+                    render={props => {
                         return <Component {...props} {...extraProps} routes={routes}/>;
                     }}
-                />);
-            })
-        }
-    </Switch>);
+                />
+                <Redirect key={path + 'redirect'} to={path}/>
+            </React.Fragment>);
+        }*/
+        return (<Route
+            key={path}
+            path={path}
+            exact={exact}
+            render={props => {
+                return <Component {...props} {...extraProps} routes={routes}/>;
+            }}
+        />);
+    })
 
 }
 
-
+export function renderRedirect(routes) {
+    let {path} = routes.find(route => route.isRedirect) || routes[0];
+    return <Redirect key={path + '-redirect'} to={path}/>
+}
 

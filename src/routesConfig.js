@@ -11,7 +11,6 @@ import Register from './routes/Register';
 export default [
     {
         path: '/',
-        // exact:true,
         name:'index-page-route',
         component:IndexPage,
         // component: () => import('./routes/IndexPage'),
@@ -31,9 +30,9 @@ export default [
                     {
                         path: '/home/childTwo',
                         name:'home-child-two-route',
+                        isRedirect: true,
                         component: ChildTwo,
                         // component: () => import('./routes/Home/ChildTwo'),
-                        isRedirect: true,
                     }
                 ]
             },
