@@ -12,7 +12,6 @@ import IndexPage from './routes/IndexPage';
 // import Login from './routes/Login';
 // import Register from './routes/Register';
 
-
 export default [
     {
         path: '/',
@@ -22,8 +21,13 @@ export default [
             {
                 path: '/home',
                 isDynamic: true,
+                loadingFallback: '不一样的 loading 内容...',
                 // component: Home,
-                component:React.lazy(() => import(/* webpackChunkName: "home-route"*/'./routes/Home')),
+                component: React.lazy(() => new Promise(resolve =>
+                    setTimeout(() =>
+                        resolve(import(/* webpackChunkName: "home-route"*/'./routes/Home')), 2000)
+                )),
+                // component:React.lazy(() => import(/* webpackChunkName: "home-route"*/'./routes/Home')),
                 routes: [
                     {
                         path: '/home/childOne',
@@ -45,40 +49,26 @@ export default [
                 isRedirect: true,
                 isDynamic: true,
                 // component: User,
-                component:React.lazy(() => import(/* webpackChunkName: "user-route"*/'./routes/User')),
+                component: React.lazy(() => import(/* webpackChunkName: "user-route"*/'./routes/User')),
             },
             {
                 path: '/profile',
                 isProtected: true,
                 isDynamic: true,
                 // component: Profile,
-                /*  component: React.lazy(() => new Promise(resolve =>
-                    setTimeout(() =>
-                      resolve(
-                        // 模拟ES Module
-                        {
-                          // 模拟 export default
-                          default: function render() {
-                            return <div>Other2 Component</div>
-                          }
-                        }
-                      ),
-                      3000
-                    )
-                  )),*/
                 component: React.lazy(() => import(/* webpackChunkName: "profile-route"*/'./routes/Profile')),
             },
             {
                 path: '/login',
                 isDynamic: true,
                 // component: Login,
-                component:React.lazy(() => import(/* webpackChunkName: "login-route"*/'./routes/Login')),
+                component: React.lazy(() => import(/* webpackChunkName: "login-route"*/'./routes/Login')),
             },
             {
                 path: '/register',
                 isDynamic: true,
                 // component: Register,
-                component:React.lazy(() => import(/* webpackChunkName: "register-route"*/'./routes/Register')),
+                component: React.lazy(() => import(/* webpackChunkName: "register-route"*/'./routes/Register')),
             }
         ]
     }

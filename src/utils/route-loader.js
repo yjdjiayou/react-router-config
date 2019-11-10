@@ -1,6 +1,5 @@
 import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
-import {variableTypeUtil} from "./variable-type-util";
 
 /**
  default: "模块内容"
@@ -18,7 +17,7 @@ export function renderAllRoutes(routesConfig, extraProps) {
 
 export function renderRoutes(routesConfig, extraProps = {}) {
     return routesConfig.map((item, index) => {
-        const {path, exact,  isProtected, isDynamic, component: Component, routes = []} = item;
+        const {path, exact, isProtected, isDynamic, component: Component, routes = [], loadingFallback} = item;
 
         /*if (isRedirect) {
             // 看 Switch 的源码，就知道为什么这里不能这样写了
@@ -40,8 +39,11 @@ export function renderRoutes(routesConfig, extraProps = {}) {
             path={path}
             exact={exact}
             component={props => {
+                if (isProtected && !localStorage.getItem('login')) {
+                    return <Redirect key={'login-redirect'} to={'/login'}/>
+                }
                 if (isDynamic) {
-                    return <React.Suspense fallback="正在加载中...">
+                    return <React.Suspense fallback={loadingFallback || "正在加载中..."}>
                         <Component {...props} {...extraProps} routes={routes}/>
                     </React.Suspense>
                 }

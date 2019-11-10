@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Test2(props) {
+export default function ChildOne(props) {
     return (
     <div>
       ChildOne

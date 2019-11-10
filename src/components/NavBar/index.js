@@ -10,7 +10,7 @@ const NavBar = (props) => {
     const {router: {location}} = props;
     return (
         <Header className={styles.header}>
-            <Menu className={styles.menu} mode="horizontal" defaultSelectedKeys={location.pathname}>
+            <Menu className={styles.menu} mode="horizontal" selectedKeys={location.pathname}>
                 <Item key="/home"><Link to="/home">首页</Link></Item>
                 <Item key="/user"><Link to="/user">用户管理</Link></Item>
                 <Item key="/profile"><Link to="/profile">个人中心</Link></Item>
