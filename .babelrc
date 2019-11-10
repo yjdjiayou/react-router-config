@@ -17,8 +17,7 @@
         "libraryDirectory": "es",
         "style": "css"
       }
-    ],
-    "dynamic-import-webpack"
+    ]
   ]
 }
 

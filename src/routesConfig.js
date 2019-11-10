@@ -1,67 +1,84 @@
- import IndexPage from './routes/IndexPage';
-import Home from './routes/Home/Home';
-import ChildOne from './routes/Home/ChildOne';
-import ChildTwo from './routes/Home/ChildTwo';
-import User from './routes/User';
-import Profile from './routes/Profile';
-import Login from './routes/Login';
-import Register from './routes/Register';
+/**
+ * 如果路由组件使用动态加载的话，那么下面就不要再引入了，否则动态加载失效了
+ */
+
+import React from 'react';
+import IndexPage from './routes/IndexPage';
+// import Home from './routes/Home/Home';
+// import ChildOne from './routes/Home/ChildOne';
+// import ChildTwo from './routes/Home/ChildTwo';
+// import User from './routes/User';
+// import Profile from './routes/Profile';
+// import Login from './routes/Login';
+// import Register from './routes/Register';
 
 
 export default [
     {
         path: '/',
-        name:'index-page-route',
-        component:IndexPage,
-        // component: () => import('./routes/IndexPage'),
+        name: 'index-page-route',
+        component: IndexPage,
         routes: [
             {
                 path: '/home',
-                name:'home-route',
-                component: Home,
-                // component: () => import('./routes/Home/Home'),
+                isDynamic: true,
+                // component: Home,
+                component:React.lazy(() => import(/* webpackChunkName: "home-route"*/'./routes/Home')),
                 routes: [
                     {
                         path: '/home/childOne',
-                        name:'home-child-one-route',
-                        component: ChildOne,
-                        // component: () => import('./routes/Home/ChildOne'),
+                        isDynamic: true,
+                        // component: ChildOne,
+                        component: React.lazy(() => import(/* webpackChunkName: "childOne-route"*/'./routes/Home/ChildOne'))
                     },
                     {
                         path: '/home/childTwo',
-                        name:'home-child-two-route',
                         isRedirect: true,
-                        component: ChildTwo,
-                        // component: () => import('./routes/Home/ChildTwo'),
+                        isDynamic: true,
+                        // component: ChildTwo,
+                        component: React.lazy(() => import(/* webpackChunkName: "childTwo-route"*/'./routes/Home/ChildTwo'))
                     }
                 ]
             },
             {
                 path: '/user',
-                name:'user-route',
-                component: User,
                 isRedirect: true,
-                // component: () => import('./routes/User'),
+                isDynamic: true,
+                // component: User,
+                component:React.lazy(() => import(/* webpackChunkName: "user-route"*/'./routes/User')),
             },
             {
                 path: '/profile',
-                name:'profile-route',
-                component: Profile,
-                isProtected:true,
-                isDynamic:true,
-                // component: () => import('./routes/Profile'),
+                isProtected: true,
+                isDynamic: true,
+                // component: Profile,
+                /*  component: React.lazy(() => new Promise(resolve =>
+                    setTimeout(() =>
+                      resolve(
+                        // 模拟ES Module
+                        {
+                          // 模拟 export default
+                          default: function render() {
+                            return <div>Other2 Component</div>
+                          }
+                        }
+                      ),
+                      3000
+                    )
+                  )),*/
+                component: React.lazy(() => import(/* webpackChunkName: "profile-route"*/'./routes/Profile')),
             },
             {
                 path: '/login',
-                name:'login-route',
-                component: Login,
-                // component: () => import('./routes/Login'),
+                isDynamic: true,
+                // component: Login,
+                component:React.lazy(() => import(/* webpackChunkName: "login-route"*/'./routes/Login')),
             },
             {
                 path: '/register',
-                name:'register-route',
-                component: Register,
-                // component: () => import('./routes/Register'),
+                isDynamic: true,
+                // component: Register,
+                component:React.lazy(() => import(/* webpackChunkName: "register-route"*/'./routes/Register')),
             }
         ]
     }

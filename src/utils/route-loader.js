@@ -18,10 +18,8 @@ export function renderAllRoutes(routesConfig, extraProps) {
 
 export function renderRoutes(routesConfig, extraProps = {}) {
     return routesConfig.map((item, index) => {
-        const {path, exact, isRedirect, isProtected, isDynamic, component: Component, routes = []} = item;
-        if (variableTypeUtil.isFunction(Component)) {
+        const {path, exact,  isProtected, isDynamic, component: Component, routes = []} = item;
 
-        }
         /*if (isRedirect) {
             // 看 Switch 的源码，就知道为什么这里不能这样写了
             // Switch 里面只能放 Route ，不能放别的，哪怕是 React.Fragment
@@ -41,7 +39,12 @@ export function renderRoutes(routesConfig, extraProps = {}) {
             key={path}
             path={path}
             exact={exact}
-            render={props => {
+            component={props => {
+                if (isDynamic) {
+                    return <React.Suspense fallback="正在加载中...">
+                        <Component {...props} {...extraProps} routes={routes}/>
+                    </React.Suspense>
+                }
                 return <Component {...props} {...extraProps} routes={routes}/>;
             }}
         />);
@@ -53,4 +56,5 @@ export function renderRedirect(routes) {
     let {path} = routes.find(route => route.isRedirect) || routes[0];
     return <Redirect key={path + '-redirect'} to={path}/>
 }
+
 
